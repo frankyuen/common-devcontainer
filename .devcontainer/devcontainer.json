@@ -1,0 +1,58 @@
+// For setting details, see: https://code.visualstudio.com/docs/remote/devcontainerjson-reference
+// To customize this file, see:
+// - https://github.com/microsoft/vscode-dev-containers/blob/main/containers/python-3/.devcontainer/devcontainer.json
+// - https://github.com/microsoft/vscode-dev-containers/blob/main/containers/go/.devcontainer/devcontainer.json
+
+{
+  "name": "Common DevContainer for Python | Go | Node",
+  "image": "frankyuen/common-devcontainer:latest",
+  "runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
+
+  // Set *default* container specific settings.json values on container created
+  "settings": {
+    "go.toolsManagement.checkForUpdates": "local",
+    "go.useLanguageServer": true,
+    "go.gopath": "/go",
+    "go.goroot": "/usr/local/go",
+    "python.defaultInterpreterPath": "/usr/local/bin/python",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+    "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+    "python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
+    "python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
+    "python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+    "python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+    "python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
+    "python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
+    "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint"
+  },
+
+  // Add the IDs of extensions you want installed when the container is created
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "golang.Go",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "redhat.vscode-commons",
+    "redhat.vscode-yaml",
+    "visualstudioexptteam.vscodeintellicode"
+  ],
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally
+  // "forwardPorts": [],
+
+  // Use 'portsAttributes' to set default properties for specific forwarded ports.
+  // More info: https://code.visualstudio.com/docs/remote/devcontainerjson-reference
+  // "portsAttributes": {},
+
+  // Use 'otherPortsAttributes' to configure any ports that aren't configured using 'portsAttributes'.
+  // "otherPortsAttributes": {},
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "",
+
+  // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "vscode"
+}
