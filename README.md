@@ -43,10 +43,10 @@ The detail steps are as follows:
    ```bash
    code /path/to/myProjectDir/
    ```
-1. VS Code would detect there is a `.devcontainer/devcontainer.json` file in your project directory and would prompt you to reopen the project in a development container:<br /><br /><img alt="Prompt of reopen a project in a development container" src="./assets/reopen-1.png" width="30%">
-1. If you do not see the above prompt, run the **Remote-Containers: Open Folder in Container...** command from the Command Palette (`F1`):<br /><br /><img alt="Prompt of reopen a project in a development container" src="./assets/reopen-2.png" width="30%">
+1. VS Code would detect there is a `.devcontainer/devcontainer.json` file in your project directory and would prompt you to reopen the project in a development container:<br /><br /><img alt="Prompt of reopen a project in a development container" src="./assets/reopen-1.png" width="50%">
+1. If you do not see the above prompt, run the **Remote-Containers: Open Folder in Container...** command from the Command Palette (`F1`):<br /><br /><img alt="Prompt of reopen a project in a development container" src="./assets/reopen-2.png" width="50%">
 1. You are all set. You may open the terminal to operate the files inside the container
-   <br /><br /><img alt="Prompt of reopen a project in a development container" src="./assets/terminal.png" width="30%">
+   <br /><br /><img alt="Prompt of reopen a project in a development container" src="./assets/terminal.png" width="50%">
 
 ### A few points to note
 
