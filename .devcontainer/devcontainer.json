@@ -1,11 +1,11 @@
 // For setting details, see: https://code.visualstudio.com/docs/remote/devcontainerjson-reference
-// To customize this file, see:
+// To customize this file, see these for reference:
 // - https://github.com/microsoft/vscode-dev-containers/blob/main/containers/python-3/.devcontainer/devcontainer.json
 // - https://github.com/microsoft/vscode-dev-containers/blob/main/containers/go/.devcontainer/devcontainer.json
 
 {
   "name": "Common DevContainer for Python | Go | Node",
-  "image": "frankyuen/common-devcontainer:latest",
+  "image": "frankyuen/common-devcontainer",
   "runArgs": ["--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
 
   // Set *default* container specific settings.json values on container created
