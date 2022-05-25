@@ -25,9 +25,15 @@ The latest version of this project supports the following languages:
 
 The fastest and easiest way to use Common DevContainer is to create the file `devcontainer.json` in the `.devcontainer`, which should be at the root of your project path, then open the project in VS Code. VS Code would then prompt you to reopen the project in a remote container
 
-The detail steps are as follows:
+The detail is as follows:
 
-1. Go to your project root directory, for example:
+### Pre-requisites
+
+* Install the [Visual Studio Code Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension
+
+### Steps to use a DevContainer
+
+1. In a command window, go to your project root directory, for example:
    `cd /path/to/myProjectDir/`
 1. Create the `.devcontainer` directory:
 

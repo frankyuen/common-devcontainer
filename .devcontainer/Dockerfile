@@ -290,7 +290,7 @@ RUN rm -rf /tmp/library-scripts
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
 
 # Set some common alias
-COPY scripts/* /home/${USERNAME}/
+COPY --chown=${USER_UID}:${USER_GID} scripts/* /home/${USERNAME}/
 
 # To keep the container running in detached mode
 CMD tail -f /dev/null
