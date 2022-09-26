@@ -18,14 +18,14 @@ ENV LANG C.UTF-8
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-    libbluetooth-dev \
-    tk-dev \
-    uuid-dev \
+        libbluetooth-dev \
+        tk-dev \
+        uuid-dev \
     ; \
     rm -rf /var/lib/apt/lists/*
 
 ENV GPG_KEY A035C8C19219BA821ECEA86B64E628F8D684696D
-ENV PYTHON_VERSION 3.10.4
+ENV PYTHON_VERSION 3.10.7
 
 RUN set -eux; \
     \
@@ -43,21 +43,21 @@ RUN set -eux; \
     cd /usr/src/python; \
     gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)"; \
     ./configure \
-    --build="$gnuArch" \
-    --enable-loadable-sqlite-extensions \
-    --enable-optimizations \
-    --enable-option-checking=fatal \
-    --enable-shared \
-    --with-lto \
-    --with-system-expat \
-    --without-ensurepip \
+        --build="$gnuArch" \
+        --enable-loadable-sqlite-extensions \
+        --enable-optimizations \
+        --enable-option-checking=fatal \
+        --enable-shared \
+        --with-lto \
+        --with-system-expat \
+        --without-ensurepip \
     ; \
     nproc="$(nproc)"; \
     make -j "$nproc" \
     ; \
     make install; \
     \
-    # enable GDB to load debugging data: https://github.com/docker-library/python/pull/701
+# enable GDB to load debugging data: https://github.com/docker-library/python/pull/701
     bin="$(readlink -ve /usr/local/bin/python3)"; \
     dir="$(dirname "$bin")"; \
     mkdir -p "/usr/share/gdb/auto-load/$dir"; \
@@ -67,10 +67,10 @@ RUN set -eux; \
     rm -rf /usr/src/python; \
     \
     find /usr/local -depth \
-    \( \
-    \( -type d -a \( -name test -o -name tests -o -name idle_test \) \) \
-    -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' -o -name 'libpython*.a' \) \) \
-    \) -exec rm -rf '{}' + \
+        \( \
+        \( -type d -a \( -name test -o -name tests -o -name idle_test \) \) \
+        -o \( -type f -a \( -name '*.pyc' -o -name '*.pyo' -o -name 'libpython*.a' \) \) \
+        \) -exec rm -rf '{}' + \
     ; \
     \
     ldconfig; \
@@ -80,19 +80,19 @@ RUN set -eux; \
 # make some useful symlinks that are expected to exist ("/usr/local/bin/python" and friends)
 RUN set -eux; \
     for src in idle3 pydoc3 python3 python3-config; do \
-    dst="$(echo "$src" | tr -d 3)"; \
-    [ -s "/usr/local/bin/$src" ]; \
-    [ ! -e "/usr/local/bin/$dst" ]; \
-    ln -svT "$src" "/usr/local/bin/$dst"; \
+        dst="$(echo "$src" | tr -d 3)"; \
+        [ -s "/usr/local/bin/$src" ]; \
+        [ ! -e "/usr/local/bin/$dst" ]; \
+        ln -svT "$src" "/usr/local/bin/$dst"; \
     done
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 22.0.4
+ENV PYTHON_PIP_VERSION 22.2.2
 # https://github.com/docker-library/python/issues/365
-ENV PYTHON_SETUPTOOLS_VERSION 58.1.0
+ENV PYTHON_SETUPTOOLS_VERSION 63.2.0
 # https://github.com/pypa/get-pip
-ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/38e54e5de07c66e875c11a1ebbdb938854625dd8/public/get-pip.py
-ENV PYTHON_GET_PIP_SHA256 e235c437e5c7d7524fbce3880ca39b917a73dc565e0c813465b7a7a329bb279a
+ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/5eaac1050023df1f5c98b173b248c260023f2278/public/get-pip.py
+ENV PYTHON_GET_PIP_SHA256 5aefe6ade911d997af080b315ebcb7f882212d070465df544e1175ac2be519b4
 
 RUN set -eux; \
     \
@@ -102,11 +102,11 @@ RUN set -eux; \
     export PYTHONDONTWRITEBYTECODE=1; \
     \
     python get-pip.py \
-    --disable-pip-version-check \
-    --no-cache-dir \
-    --no-compile \
-    "pip==$PYTHON_PIP_VERSION" \
-    "setuptools==$PYTHON_SETUPTOOLS_VERSION" \
+        --disable-pip-version-check \
+        --no-cache-dir \
+        --no-compile \
+        "pip==$PYTHON_PIP_VERSION" \
+        "setuptools==$PYTHON_SETUPTOOLS_VERSION" \
     ; \
     rm -f get-pip.py
 
@@ -116,74 +116,74 @@ RUN set -eux; \
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-    g++ \
-    gcc \
-    libc6-dev \
-    make \
-    pkg-config \
+        g++ \
+        gcc \
+        libc6-dev \
+        make \
+        pkg-config \
     ; \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH /usr/local/go/bin:$PATH
 
-ENV GOLANG_VERSION 1.18.2
+ENV GOLANG_VERSION 1.18.6
 
 RUN set -eux; \
     arch="$(dpkg --print-architecture)"; arch="${arch##*-}"; \
     url=; \
     case "$arch" in \
-    'amd64') \
-    url='https://dl.google.com/go/go1.18.2.linux-amd64.tar.gz'; \
-    sha256='e54bec97a1a5d230fc2f9ad0880fcbabb5888f30ed9666eca4a91c5a32e86cbc'; \
-    ;; \
-    'armel') \
-    export GOARCH='arm' GOARM='5' GOOS='linux'; \
-    ;; \
-    'armhf') \
-    url='https://dl.google.com/go/go1.18.2.linux-armv6l.tar.gz'; \
-    sha256='570dc8df875b274981eaeabe228d0774985de42e533ffc8c7ff0c9a55174f697'; \
-    ;; \
-    'arm64') \
-    url='https://dl.google.com/go/go1.18.2.linux-arm64.tar.gz'; \
-    sha256='fc4ad28d0501eaa9c9d6190de3888c9d44d8b5fb02183ce4ae93713f67b8a35b'; \
-    ;; \
-    'i386') \
-    url='https://dl.google.com/go/go1.18.2.linux-386.tar.gz'; \
-    sha256='956b01369102eae9f2b714616056c3576c707ce401f41b60385db2595edafbb1'; \
-    ;; \
-    'mips64el') \
-    export GOARCH='mips64le' GOOS='linux'; \
-    ;; \
-    'ppc64el') \
-    url='https://dl.google.com/go/go1.18.2.linux-ppc64le.tar.gz'; \
-    sha256='7d1791ec63cda9b41ca5990477236142ffab9b86cc30d99f50bd8c4598406b30'; \
-    ;; \
-    's390x') \
-    url='https://dl.google.com/go/go1.18.2.linux-s390x.tar.gz'; \
-    sha256='6646779524f2ce630efd8a55a29993591f763bb717011f16146b3e9bae7bba17'; \
-    ;; \
-    *) echo >&2 "error: unsupported architecture '$arch' (likely packaging update needed)"; exit 1 ;; \
+        'amd64') \
+            url='https://dl.google.com/go/go1.18.6.linux-amd64.tar.gz'; \
+            sha256='bb05f179a773fed60c6a454a24141aaa7e71edfd0f2d465ad610a3b8f1dc7fe8'; \
+            ;; \
+        'armel') \
+            export GOARCH='arm' GOARM='5' GOOS='linux'; \
+            ;; \
+        'armhf') \
+            url='https://dl.google.com/go/go1.18.6.linux-armv6l.tar.gz'; \
+            sha256='fca2a46dfdab541f63afaa04029c0d75e934e05464bf8c4f636c9d9856dfdaf2'; \
+            ;; \
+        'arm64') \
+            url='https://dl.google.com/go/go1.18.6.linux-arm64.tar.gz'; \
+            sha256='838ffa94158125f16e4aa667ee4f6b499ea57e3e35a7e2517ad357ea06714691'; \
+            ;; \
+        'i386') \
+            url='https://dl.google.com/go/go1.18.6.linux-386.tar.gz'; \
+            sha256='52a8ec92dc1c192fbbfc3c9583ded388edf14ee8b687b034e3c1034024bf2970'; \
+            ;; \
+        'mips64el') \
+            export GOARCH='mips64le' GOOS='linux'; \
+            ;; \
+        'ppc64el') \
+            url='https://dl.google.com/go/go1.18.6.linux-ppc64le.tar.gz'; \
+            sha256='bcec49f08bb67ae2821ece8fecbc2ba678d54ce6f8cfaa572b86448aa09ca816'; \
+            ;; \
+        's390x') \
+            url='https://dl.google.com/go/go1.18.6.linux-s390x.tar.gz'; \
+            sha256='661af75e03cb8effcf90705dc0a12875efdb653ad8a0ca434905ef665189350a'; \
+            ;; \
+        *) echo >&2 "error: unsupported architecture '$arch' (likely packaging update needed)"; exit 1 ;; \
     esac; \
     build=; \
     if [ -z "$url" ]; then \
-    # https://github.com/golang/go/issues/38536#issuecomment-616897960
-    build=1; \
-    url='https://dl.google.com/go/go1.18.2.src.tar.gz'; \
-    sha256='2c44d03ea2c34092137ab919ba602f2c261a038d08eb468528a3f3a28e5667e2'; \
-    echo >&2; \
-    echo >&2 "warning: current architecture ($arch) does not have a compatible Go binary release; will be building from source"; \
-    echo >&2; \
+# https://github.com/golang/go/issues/38536#issuecomment-616897960
+        build=1; \
+        url='https://dl.google.com/go/go1.18.6.src.tar.gz'; \
+        sha256='a7f1d50424355dabce66d1112b1cae439b6ee5e4f15edba6f104c0a4b173e895'; \
+        echo >&2; \
+        echo >&2 "warning: current architecture ($arch) does not have a compatible Go binary release; will be building from source"; \
+        echo >&2; \
     fi; \
     \
     wget -O go.tgz.asc "$url.asc"; \
     wget -O go.tgz "$url" --progress=dot:giga; \
     echo "$sha256 *go.tgz" | sha256sum -c -; \
     \
-    # https://github.com/golang/go/issues/14739#issuecomment-324767697
+# https://github.com/golang/go/issues/14739#issuecomment-324767697
     GNUPGHOME="$(mktemp -d)"; export GNUPGHOME; \
-    # https://www.google.com/linuxrepositories/
+# https://www.google.com/linuxrepositories/
     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys 'EB4C 1BFD 4F04 2F6D DDCC  EC91 7721 F63B D38B 4796'; \
-    # let's also fetch the specific subkey of that key explicitly that we expect "go.tgz.asc" to be signed by, just to make sure we definitely have it
+# let's also fetch the specific subkey of that key explicitly that we expect "go.tgz.asc" to be signed by, just to make sure we definitely have it
     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys '2F52 8D36 D67B 69ED F998  D857 78BD 6547 3CB3 BD13'; \
     gpg --batch --verify go.tgz.asc go.tgz; \
     gpgconf --kill all; \
@@ -193,34 +193,34 @@ RUN set -eux; \
     rm go.tgz; \
     \
     if [ -n "$build" ]; then \
-    savedAptMark="$(apt-mark showmanual)"; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends golang-go; \
-    \
-    export GOCACHE='/tmp/gocache'; \
-    \
-    ( \
-    cd /usr/local/go/src; \
-    # set GOROOT_BOOTSTRAP + GOHOST* such that we can build Go successfully
-    export GOROOT_BOOTSTRAP="$(go env GOROOT)" GOHOSTOS="$GOOS" GOHOSTARCH="$GOARCH"; \
-    ./make.bash; \
-    ); \
-    \
-    apt-mark auto '.*' > /dev/null; \
-    apt-mark manual $savedAptMark > /dev/null; \
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-    rm -rf /var/lib/apt/lists/*; \
-    \
-    # remove a few intermediate / bootstrapping files the official binary release tarballs do not contain
-    rm -rf \
-    /usr/local/go/pkg/*/cmd \
-    /usr/local/go/pkg/bootstrap \
-    /usr/local/go/pkg/obj \
-    /usr/local/go/pkg/tool/*/api \
-    /usr/local/go/pkg/tool/*/go_bootstrap \
-    /usr/local/go/src/cmd/dist/dist \
-    "$GOCACHE" \
-    ; \
+        savedAptMark="$(apt-mark showmanual)"; \
+        apt-get update; \
+        apt-get install -y --no-install-recommends golang-go; \
+        \
+        export GOCACHE='/tmp/gocache'; \
+        \
+        ( \
+            cd /usr/local/go/src; \
+# set GOROOT_BOOTSTRAP + GOHOST* such that we can build Go successfully
+            export GOROOT_BOOTSTRAP="$(go env GOROOT)" GOHOSTOS="$GOOS" GOHOSTARCH="$GOARCH"; \
+            ./make.bash; \
+        ); \
+        \
+        apt-mark auto '.*' > /dev/null; \
+        apt-mark manual $savedAptMark > /dev/null; \
+        apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+        rm -rf /var/lib/apt/lists/*; \
+        \
+# remove a few intermediate / bootstrapping files the official binary release tarballs do not contain
+        rm -rf \
+            /usr/local/go/pkg/*/cmd \
+            /usr/local/go/pkg/bootstrap \
+            /usr/local/go/pkg/obj \
+            /usr/local/go/pkg/tool/*/api \
+            /usr/local/go/pkg/tool/*/go_bootstrap \
+            /usr/local/go/src/cmd/dist/dist \
+            "$GOCACHE" \
+        ; \
     fi; \
     \
     go version

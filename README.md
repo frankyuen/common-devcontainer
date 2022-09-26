@@ -8,9 +8,9 @@ Microsoft builds and maintains [development containers](https://github.com/micro
 
 The latest version of this project supports the following languages:
 
-- Python 3.10.4
-- Go 1.18.2
-- Node.js 16.15.0 (NPM 8.5.5)
+- Python 3.10.7
+- Go 1.18.6
+- Node.js 16.17.1 (NPM 8.15.0)
 
 ## How to build a Common DevContainer
 
@@ -43,8 +43,8 @@ The detail is as follows:
    cd .devcontainer
    ```
 
-1. Create a file named `.devcontainer.json` inside the directory `.devcontainer`
-1. Copy or customize the content from [the sample file](.devcontainer/devcontainer.json) to your version of `.devcontainer.json`
+1. Create a file named `devcontainer.json` inside the directory `.devcontainer`
+1. Copy or customize the content from [the sample file](.devcontainer/devcontainer.json) to your version of `devcontainer.json`
 1. Open the project directory in VS Code:
    ```bash
    code /path/to/myProjectDir/
